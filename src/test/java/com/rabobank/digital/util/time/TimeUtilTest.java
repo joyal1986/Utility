@@ -26,16 +26,16 @@ public class TimeUtilTest {
     }
     @Test
     public void testFormatMillisecondsToMinutesSeconds() {
-        assertEquals("2 minutes 0 seconds", TimeUtil.format(120000,Unit.MILLISECONDS, Format.minutes_seconds));
-        assertEquals("0 minutes 45 seconds", TimeUtil.format(45000,Unit.MILLISECONDS,Format.minutes_seconds));
+        assertEquals("2 minutes", TimeUtil.format(120000,Unit.MILLISECONDS, Format.minutes_seconds));
+        assertEquals("45 seconds", TimeUtil.format(45000,Unit.MILLISECONDS,Format.minutes_seconds));
         assertEquals("3 minutes 34 seconds", TimeUtil.format(214000,Unit.MILLISECONDS,Format.minutes_seconds));
-        assertEquals("0 minutes 0 seconds", TimeUtil.format(100,Unit.MILLISECONDS,Format.minutes_seconds));
+        assertEquals("0 seconds", TimeUtil.format(100,Unit.MILLISECONDS,Format.minutes_seconds));
     }
     @Test
     public void testFormatHoursToHoursMinutesSeconds() {
-        assertEquals("0 hours 3 minutes 34 seconds", TimeUtil.format(214000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
+        assertEquals("3 minutes 34 seconds", TimeUtil.format(214000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
         assertEquals("5 hours 3 minutes 14 seconds", TimeUtil.format(18194000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
-        assertEquals("0 hours 0 minutes 4 seconds", TimeUtil.format(4000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
-        assertEquals("0 hours 0 minutes 0 seconds", TimeUtil.format(40,Unit.MILLISECONDS,Format.hours_minutes_seconds));
+        assertEquals("4 seconds", TimeUtil.format(4000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
+        assertEquals("0 seconds", TimeUtil.format(40,Unit.MILLISECONDS,Format.hours_minutes_seconds));
     }
 }

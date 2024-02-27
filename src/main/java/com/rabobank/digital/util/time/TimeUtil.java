@@ -55,7 +55,18 @@ public final class TimeUtil {
     public static String formatMillisecondsToMinutesSeconds(long milliseconds) {
         long minutes = (milliseconds / 1000) / 60;
         long seconds = (milliseconds / 1000) % 60;
-        return minutes + " minutes " + seconds + " seconds";
+
+        StringBuilder result = new StringBuilder();
+
+        if (minutes > 0) {
+            result.append(minutes).append(" minutes ");
+        }
+
+        if (seconds > 0 || minutes == 0) {
+            result.append(seconds).append(" seconds");
+        }
+
+        return result.toString().trim();
     }
     /**
      * Formats the given duration in milliseconds to hours, minutes, and seconds.
@@ -67,7 +78,21 @@ public final class TimeUtil {
         long hours = (milliseconds / 1000) / 3600;
         long minutes = ((milliseconds / 1000) % 3600) / 60;
         long seconds = (milliseconds / 1000) % 60;
-        return hours + " hours " + minutes + " minutes " + seconds + " seconds";
+
+        StringBuilder result = new StringBuilder();
+        if (hours > 0) {
+            result.append(hours).append(" hours ");
+        }
+
+        if (minutes > 0) {
+            result.append(minutes).append(" minutes ");
+        }
+
+        if (seconds > 0 || (minutes == 0 && hours == 0)) {
+            result.append(seconds).append(" seconds");
+        }
+
+        return result.toString().trim();
     }
     /**
      * Converts the given duration to milliseconds based on the specified time unit.
