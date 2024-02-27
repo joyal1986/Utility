@@ -1,29 +1,60 @@
 package com.rabobank.digital.util.time;
 
-import java.sql.Time;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public final class TimeUtil {
+public enum TimeUtil {
 
-    private TimeUtil() {
+    /**
+     * Milliseconds.
+     */
+    MILLISECONDS;
+
+    /**
+     * Enumeration representing different time formats.
+     */
+    public enum Format {
+        /**
+         * Format in seconds.
+         */
+        seconds,
+        /**
+         * Format in minutes and seconds.
+         */
+        minutes_seconds,
+        /**
+         * Format in hours, minutes, and seconds.
+         */
+        hours_minutes_seconds,
+        /**
+         * Short form for hours, minutes, and seconds (e.g., 1h 30m 15s).
+         */
+        h_m_s,
+        /**
+         * Short form for minutes and seconds (e.g., 3m 45s).
+         */
+        m_s,
+        /**
+         * Short form for seconds (e.g., 2s).
+         */
+        s
     }
+
 
     /**
      * Formats the given duration based on the specified time unit and format.
      *
      * @param duration   The duration to be formatted.
-     * @param timeUnit   The time unit for the duration.
      * @param timeFormat The desired format for the output.
      * @return The formatted time duration.
      * @throws NullPointerException if time format is null.
      * @throws IllegalArgumentException if an unsupported time format is provided.
      */
-    public static String format(long duration,Unit timeUnit,Format timeFormat) {
+    public String format(long duration,Format timeFormat) {
         // As a starting point our requirement is only to handle milliseconds as input and do different formatting.
         // But in future this function should be reusable for other units like HOURS, SECONDS etc.
         // So the plan is to convert other units to milliseconds before do any formatting.
-        long milliseconds = convertToMilliseconds(duration, timeUnit);
+        long milliseconds = convertToMilliseconds(duration);
         Objects.requireNonNull(timeFormat,"Time Format can not be null");
         switch (timeFormat){
             case seconds,s -> {
@@ -46,7 +77,7 @@ public final class TimeUtil {
      * @param timeFormat The desired format for the output.
      * @return The formatted time duration in seconds.
      */
-    public static String formatMillisecondsToSeconds(long milliseconds,Format timeFormat) {
+    private static String formatMillisecondsToSeconds(long milliseconds,Format timeFormat) {
         String unitSeconds=timeFormat==Format.s ? "s" : " seconds";
         long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds);
         return seconds + unitSeconds;
@@ -58,7 +89,7 @@ public final class TimeUtil {
      * @param timeFormat The desired format for the output.
      * @return The formatted time duration in minutes and seconds.
      */
-    public static String formatMillisecondsToMinutesSeconds(long milliseconds,Format timeFormat) {
+    private static String formatMillisecondsToMinutesSeconds(long milliseconds,Format timeFormat) {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds);
         seconds = seconds % 60;
@@ -85,7 +116,7 @@ public final class TimeUtil {
      * @param timeFormat The desired format for the output.
      * @return The formatted time duration in hours, minutes, and seconds.
      */
-    public static String formatMillisecondsToHoursMinutesSeconds(long milliseconds,Format timeFormat) {
+    private static String formatMillisecondsToHoursMinutesSeconds(long milliseconds,Format timeFormat) {
         long hours = TimeUnit.MILLISECONDS.toHours(milliseconds);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds) % 60;
         long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds) % 60;
@@ -113,15 +144,13 @@ public final class TimeUtil {
      * Converts the given duration to milliseconds based on the specified time unit.
      *
      * @param duration The duration to be converted.
-     * @param timeUnit The time unit of the duration.
      * @return The duration in milliseconds.
-     * @throws NullPointerException if time unit is null.
      * @throws IllegalArgumentException if an unsupported time unit is provided.
      */
-    public static long convertToMilliseconds(long duration, Unit timeUnit) {
-        if (Objects.requireNonNull(timeUnit,"Time Unit can not be null") == Unit.MILLISECONDS) {
+    private long convertToMilliseconds(long duration) {
+        if (this == MILLISECONDS) {
             return duration;
         }
-        throw new IllegalArgumentException("Unsupported Time Unit: " + timeUnit);
+        throw new IllegalArgumentException("Unsupported Time Unit: " + this);
     }
 }
