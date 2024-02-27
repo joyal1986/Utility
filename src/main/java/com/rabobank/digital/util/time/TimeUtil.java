@@ -21,10 +21,16 @@ public final class TimeUtil {
         // But in future this function should be reusable for other units like HOURS, SECONDS etc.
         // So the plan is to convert other units to milliseconds before do any formatting.
         long milliseconds = convertToMilliseconds(duration, timeUnit);
-        if (Objects.requireNonNull(timeFormat,"Time Format can not be null") == Format.seconds) {
-            return formatMillisecondsToSeconds(milliseconds);
+        Objects.requireNonNull(timeFormat,"Time Format can not be null");
+        switch (timeFormat){
+            case seconds -> {
+                return formatMillisecondsToSeconds(milliseconds);
+            }
+            case minutes_seconds -> {
+                return formatMillisecondsToMinutesSeconds(milliseconds);
+            }
+            default -> throw new IllegalArgumentException("Unsupported Time Format: " + timeFormat);
         }
-        throw new IllegalArgumentException("Unsupported Time Format: " + timeFormat);
     }
 
     /**
@@ -36,6 +42,17 @@ public final class TimeUtil {
     public static String formatMillisecondsToSeconds(long milliseconds) {
         long seconds = milliseconds / 1000;
         return seconds + " seconds";
+    }
+    /**
+     * Formats the given duration in milliseconds to minutes and seconds.
+     *
+     * @param milliseconds The duration in milliseconds.
+     * @return The formatted time duration in minutes and seconds.
+     */
+    public static String formatMillisecondsToMinutesSeconds(long milliseconds) {
+        long minutes = (milliseconds / 1000) / 60;
+        long seconds = (milliseconds / 1000) % 60;
+        return minutes + " minutes " + seconds + " seconds";
     }
     /**
      * Converts the given duration to milliseconds based on the specified time unit.
@@ -50,6 +67,7 @@ public final class TimeUtil {
         if (Objects.requireNonNull(timeUnit,"Time Unit can not be null") == Unit.MILLISECONDS) {
             return duration;
         }
+
         throw new IllegalArgumentException("Unsupported Time Unit: " + timeUnit);
     }
 }

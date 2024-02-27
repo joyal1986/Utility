@@ -24,4 +24,11 @@ public class TimeUtilTest {
         });
         assertEquals("Time Unit can not be null", timeUnitNullException.getMessage());
     }
+    @Test
+    public void testFormatMillisecondsToMinutesSeconds() {
+        assertEquals("2 minutes 0 seconds", TimeUtil.format(120000,Unit.MILLISECONDS, Format.minutes_seconds));
+        assertEquals("0 minutes 45 seconds", TimeUtil.format(45000,Unit.MILLISECONDS,Format.minutes_seconds));
+        assertEquals("3 minutes 34 seconds", TimeUtil.format(214000,Unit.MILLISECONDS,Format.minutes_seconds));
+        assertEquals("0 minutes 0 seconds", TimeUtil.format(100,Unit.MILLISECONDS,Format.minutes_seconds));
+    }
 }
