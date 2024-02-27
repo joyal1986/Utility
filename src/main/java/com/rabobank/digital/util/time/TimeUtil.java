@@ -67,7 +67,6 @@ public final class TimeUtil {
         if (Objects.requireNonNull(timeUnit,"Time Unit can not be null") == Unit.MILLISECONDS) {
             return duration;
         }
-
         throw new IllegalArgumentException("Unsupported Time Unit: " + timeUnit);
     }
 }
