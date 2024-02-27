@@ -23,14 +23,14 @@ public final class TimeUtil {
         long milliseconds = convertToMilliseconds(duration, timeUnit);
         Objects.requireNonNull(timeFormat,"Time Format can not be null");
         switch (timeFormat){
-            case seconds -> {
-                return formatMillisecondsToSeconds(milliseconds);
+            case seconds,s -> {
+                return formatMillisecondsToSeconds(milliseconds,timeFormat);
             }
-            case minutes_seconds -> {
-                return formatMillisecondsToMinutesSeconds(milliseconds);
+            case minutes_seconds,m_s -> {
+                return formatMillisecondsToMinutesSeconds(milliseconds,timeFormat);
             }
-            case hours_minutes_seconds -> {
-                return formatMillisecondsToHoursMinutesSeconds(milliseconds);
+            case hours_minutes_seconds,h_m_s -> {
+                return formatMillisecondsToHoursMinutesSeconds(milliseconds,timeFormat);
             }
             default -> throw new IllegalArgumentException("Unsupported Time Format: " + timeFormat);
         }
@@ -42,9 +42,10 @@ public final class TimeUtil {
      * @param milliseconds The duration in milliseconds.
      * @return The formatted time duration in seconds.
      */
-    public static String formatMillisecondsToSeconds(long milliseconds) {
+    public static String formatMillisecondsToSeconds(long milliseconds,Format timeFormat) {
+        String unitSeconds=timeFormat==Format.s ? "s" : " seconds";
         long seconds = milliseconds / 1000;
-        return seconds + " seconds";
+        return seconds + unitSeconds;
     }
     /**
      * Formats the given duration in milliseconds to minutes and seconds.
@@ -52,18 +53,21 @@ public final class TimeUtil {
      * @param milliseconds The duration in milliseconds.
      * @return The formatted time duration in minutes and seconds.
      */
-    public static String formatMillisecondsToMinutesSeconds(long milliseconds) {
+    public static String formatMillisecondsToMinutesSeconds(long milliseconds,Format timeFormat) {
         long minutes = (milliseconds / 1000) / 60;
         long seconds = (milliseconds / 1000) % 60;
+
+        String unitSeconds=timeFormat==Format.m_s ? "s " : " seconds";
+        String unitMinutes=timeFormat==Format.m_s ? "m " : " minutes ";
 
         StringBuilder result = new StringBuilder();
 
         if (minutes > 0) {
-            result.append(minutes).append(" minutes ");
+            result.append(minutes).append(unitMinutes);
         }
 
         if (seconds > 0 || minutes == 0) {
-            result.append(seconds).append(" seconds");
+            result.append(seconds).append(unitSeconds);
         }
 
         return result.toString().trim();
@@ -74,22 +78,26 @@ public final class TimeUtil {
      * @param milliseconds The duration in milliseconds.
      * @return The formatted time duration in hours, minutes, and seconds.
      */
-    public static String formatMillisecondsToHoursMinutesSeconds(long milliseconds) {
+    public static String formatMillisecondsToHoursMinutesSeconds(long milliseconds,Format timeFormat) {
         long hours = (milliseconds / 1000) / 3600;
         long minutes = ((milliseconds / 1000) % 3600) / 60;
         long seconds = (milliseconds / 1000) % 60;
 
+        String unitSeconds=timeFormat==Format.h_m_s ? "s " : " seconds ";
+        String unitMinutes=timeFormat==Format.h_m_s ? "m " : " minutes ";
+        String unitHours=timeFormat==Format.h_m_s ? "h " : " hours ";
+
         StringBuilder result = new StringBuilder();
         if (hours > 0) {
-            result.append(hours).append(" hours ");
+            result.append(hours).append(unitHours);
         }
 
         if (minutes > 0) {
-            result.append(minutes).append(" minutes ");
+            result.append(minutes).append(unitMinutes);
         }
 
         if (seconds > 0 || (minutes == 0 && hours == 0)) {
-            result.append(seconds).append(" seconds");
+            result.append(seconds).append(unitSeconds);
         }
 
         return result.toString().trim();
