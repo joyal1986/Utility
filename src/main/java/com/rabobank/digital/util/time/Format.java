@@ -1,5 +1,6 @@
 package com.rabobank.digital.util.time;
 
 public enum Format {
-    seconds
+    seconds,
+    minutes_seconds
 }
