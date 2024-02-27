@@ -1,8 +1,11 @@
 package com.rabobank.digital.util.time;
 
+import java.sql.Time;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public final class TimeUtil {
+
     private TimeUtil() {
     }
 
@@ -40,22 +43,25 @@ public final class TimeUtil {
      * Formats the given duration in milliseconds to seconds.
      *
      * @param milliseconds The duration in milliseconds.
+     * @param timeFormat The desired format for the output.
      * @return The formatted time duration in seconds.
      */
     public static String formatMillisecondsToSeconds(long milliseconds,Format timeFormat) {
         String unitSeconds=timeFormat==Format.s ? "s" : " seconds";
-        long seconds = milliseconds / 1000;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds);
         return seconds + unitSeconds;
     }
     /**
      * Formats the given duration in milliseconds to minutes and seconds.
      *
      * @param milliseconds The duration in milliseconds.
+     * @param timeFormat The desired format for the output.
      * @return The formatted time duration in minutes and seconds.
      */
     public static String formatMillisecondsToMinutesSeconds(long milliseconds,Format timeFormat) {
-        long minutes = (milliseconds / 1000) / 60;
-        long seconds = (milliseconds / 1000) % 60;
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds);
+        seconds = seconds % 60;
 
         String unitSeconds=timeFormat==Format.m_s ? "s " : " seconds";
         String unitMinutes=timeFormat==Format.m_s ? "m " : " minutes ";
@@ -76,12 +82,13 @@ public final class TimeUtil {
      * Formats the given duration in milliseconds to hours, minutes, and seconds.
      *
      * @param milliseconds The duration in milliseconds.
+     * @param timeFormat The desired format for the output.
      * @return The formatted time duration in hours, minutes, and seconds.
      */
     public static String formatMillisecondsToHoursMinutesSeconds(long milliseconds,Format timeFormat) {
-        long hours = (milliseconds / 1000) / 3600;
-        long minutes = ((milliseconds / 1000) % 3600) / 60;
-        long seconds = (milliseconds / 1000) % 60;
+        long hours = TimeUnit.MILLISECONDS.toHours(milliseconds);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds) % 60;
 
         String unitSeconds=timeFormat==Format.h_m_s ? "s " : " seconds ";
         String unitMinutes=timeFormat==Format.h_m_s ? "m " : " minutes ";

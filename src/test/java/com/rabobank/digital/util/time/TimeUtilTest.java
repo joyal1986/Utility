@@ -37,7 +37,7 @@ public class TimeUtilTest {
         assertEquals("0s", TimeUtil.format(100,Unit.MILLISECONDS,Format.m_s));
     }
     @Test
-    public void testFormatHoursToHoursMinutesSeconds() {
+    public void testFormatMillisecondsToHoursMinutesSeconds() {
         assertEquals("3 minutes 34 seconds", TimeUtil.format(214000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
         assertEquals("5 hours 3 minutes 14 seconds", TimeUtil.format(18194000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
         assertEquals("4 seconds", TimeUtil.format(4000,Unit.MILLISECONDS,Format.hours_minutes_seconds));
