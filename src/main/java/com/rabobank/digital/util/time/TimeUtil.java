@@ -148,6 +148,7 @@ public enum TimeUtil {
      * @throws IllegalArgumentException if an unsupported time unit is provided.
      */
     private long convertToMilliseconds(long duration) {
+        // this will be replaced with a switch statemennts when we add more time units like HOURS,SECONDS etc in future
         if (this == MILLISECONDS) {
             return duration;
         }
