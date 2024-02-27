@@ -29,6 +29,9 @@ public final class TimeUtil {
             case minutes_seconds -> {
                 return formatMillisecondsToMinutesSeconds(milliseconds);
             }
+            case hours_minutes_seconds -> {
+                return formatMillisecondsToHoursMinutesSeconds(milliseconds);
+            }
             default -> throw new IllegalArgumentException("Unsupported Time Format: " + timeFormat);
         }
     }
@@ -53,6 +56,18 @@ public final class TimeUtil {
         long minutes = (milliseconds / 1000) / 60;
         long seconds = (milliseconds / 1000) % 60;
         return minutes + " minutes " + seconds + " seconds";
+    }
+    /**
+     * Formats the given duration in milliseconds to hours, minutes, and seconds.
+     *
+     * @param milliseconds The duration in milliseconds.
+     * @return The formatted time duration in hours, minutes, and seconds.
+     */
+    public static String formatMillisecondsToHoursMinutesSeconds(long milliseconds) {
+        long hours = (milliseconds / 1000) / 3600;
+        long minutes = ((milliseconds / 1000) % 3600) / 60;
+        long seconds = (milliseconds / 1000) % 60;
+        return hours + " hours " + minutes + " minutes " + seconds + " seconds";
     }
     /**
      * Converts the given duration to milliseconds based on the specified time unit.
