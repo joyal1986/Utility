@@ -34,7 +34,7 @@ Add the following dependency to your Maven project:
 <dependencies>
     <dependency>
         <groupId>com.rabobank.digital.util</groupId>
-        <artifactId>yourlibrary</artifactId>
+        <artifactId>Utility</artifactId>
         <version>{version}</version>
     </dependency>
 </dependencies>
